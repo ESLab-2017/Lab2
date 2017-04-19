@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="img/Icon.png" />
+    <title>ESLab1 Chat Room</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu" />
+    <link rel="stylesheet" type="text/css" href="tooltipster/dist/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-borderless.min.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+
+<body>
+    <ul class="pages">
+        <li class="new page">
+            <div class="menu page">
+                <div class="leftside">
+                    <div class="header">
+                        <h2>Main Menu</h2>
+                    </div>
+                    <button type="submit" class="cameraButton" id="cameraButton">
+                      <b>Camera</b><br><small><small>Turn on the camera and start monitoring.</small></small>
+                    </button><br>
+                    <button type="submit" class="talkButton" id="talkButton">
+                      Register<br>RR
+                    </button><br>
+                    <button type="submit" class="alarmButton" id="alarmButton">
+                      Register<br>RR
+                    </button>
+                </div>
+            </div>
+        </li>
+        <li class="login page">
+            <div class="form">
+                <div class="title">Welcome</div>
+                <div class="wrong"></div>
+                <input class="usernameInput" type="text" placeholder="USERNAME" maxlength="14" />
+                <input class="passwordInput" type="password" placeholder="PASSWORD" maxlength="14" />
+            </div>
+        </li>
+    </ul>
+    <script type="text/javascript" src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script type="text/javascript" src="tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+</body>
+
+</html>
