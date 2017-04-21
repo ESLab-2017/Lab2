@@ -1,30 +1,22 @@
-// Any copyright is dedicated to the Public Domain.
-// http://creativecommons.org/publicdomain/zero/1.0/
+var app = require('express')();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
-/*********************************************
-This basic accelerometer example logs a stream
-of x, y, and z data from the accelerometer
-*********************************************/
+app.get('/', function(req, res) {
+    res.sendFile(__dirname + '/public/index.html');
+});
 
 var tessel = require('tessel');
 var accel = require('accel-mma84').use(tessel.port['A']);
+var av = require('tessel-av');
+var camera = new av.Camera();
 
-const express = require('express');
-
-const app = express();
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
-const ip = require('ip');
-
-const port = process.env.PORT || 8080;
-
-http.listen(port, () => {
-    console.log(`listening on localhost:8080 and ${ip.address()}:8080`);
+app.get('/stream', (request, response) => {
+    response.redirect(camera.url);
 });
 
-app.use(express.static(`${__dirname}/public`));
-
-io.on('connection', (socket) => {
+io.on('connection', function(socket) {
+    console.log('a user connected');
     // Initialize the accelerometer.
     accel.on('ready', function() {
         // Stream accelerometer data
@@ -39,4 +31,8 @@ io.on('connection', (socket) => {
     accel.on('error', function(err) {
         console.log('Error:', err);
     });
+});
+
+http.listen(3000, function() {
+    console.log('listening on *:3000');
 });
