@@ -27,13 +27,13 @@ accel.on('ready', function() {
 
         accel.on('data', function(xyz) {
             socket.emit('newdata', {
-                x: xyz[0].toFixed(2),
-                y: xyz[1].toFixed(2),
-                z: xyz[2].toFixed(2),
+                x: xyz[0],
+                y: xyz[1],
+                z: xyz[2],
             });
-            console.log('x:', xyz[0].toFixed(2),
-                'y:', xyz[1].toFixed(2),
-                'z:', xyz[2].toFixed(2));
+            console.log('x:', xyz[0],
+                'y:', xyz[1],
+                'z:', xyz[2]);
         });
 
         accel.on('error', function(err) {
