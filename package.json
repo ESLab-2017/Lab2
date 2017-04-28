@@ -8,12 +8,12 @@
   },
   "repository": "https://github.com/ESLab-2017/Lab2.git",
   "dependencies": {
+    "accel-mma84": "^0.2.4",
     "assert": "^1.4.1",
     "express": "4.10.2",
     "ip": "^1.0.0",
     "socket.io": "^1.2.0",
-    "tessel-av": "^0.15.1",
-    "ws": "^0.4.31"
+    "tessel-av": "^0.15.1"
   },
   "keywords": [
     "Tessel"
