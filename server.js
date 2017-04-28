@@ -17,7 +17,7 @@ app.get('/stream', (request, response) => {
 io.on('connection', function(socket) {
     console.log('a user connected');
     // Initialize the accelerometer.
-    socket.emit('new data', {
+    socket.emit('newdata', {
         x: 1,
         y: 2,
         z: 3,
@@ -25,7 +25,7 @@ io.on('connection', function(socket) {
     accel.on('ready', function() {
         // Stream accelerometer data
         accel.on('data', function(xyz) {
-            socket.emit('new data', {
+            socket.emit('newdata', {
                 x: xyz[0].toFixed(2),
                 y: xyz[1].toFixed(2),
                 z: xyz[2].toFixed(2),
