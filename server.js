@@ -14,16 +14,17 @@ app.get('/stream', (request, response) => {
     response.redirect(camera.url);
 });
 
-io.on('connection', function(socket) {
-    console.log('a user connected');
-    // Initialize the accelerometer.
-    socket.emit('newdata', {
-        x: 1,
-        y: 2,
-        z: 3,
-    });
-    accel.on('ready', function() {
-        // Stream accelerometer data
+accel.on('ready', function() {
+    // Stream accelerometer data
+    io.on('connection', function(socket) {
+        console.log('a user connected');
+        // Initialize the accelerometer.
+        socket.emit('newdata', {
+            x: 1,
+            y: 2,
+            z: 3,
+        });
+
         accel.on('data', function(xyz) {
             socket.emit('newdata', {
                 x: xyz[0].toFixed(2),
@@ -35,10 +36,9 @@ io.on('connection', function(socket) {
                 'z:', xyz[2].toFixed(2));
         });
 
-    });
-
-    accel.on('error', function(err) {
-        console.log('Error:', err);
+        accel.on('error', function(err) {
+            console.log('Error:', err);
+        });
     });
 });
 
