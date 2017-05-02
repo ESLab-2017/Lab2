@@ -16,6 +16,7 @@ app.get('/stream', (request, response) => {
 
 accel.on('ready', function() {
     // Stream accelerometer data
+    console.log('Accelerometer is ready.');
     io.on('connection', function(socket) {
         console.log('a user connected');
         // Initialize the accelerometer.
