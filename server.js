@@ -24,12 +24,15 @@ accel.on('ready', function() {
         console.log('A user is connected...');
         // Initialize the accelerometer.
 
-        // socket.emit('newdata', {
-        //     // Pseudo-data for debugging
-        //     x: 1,
-        //     y: 2,
-        //     z: 3,
-        // });
+        var blinkID;
+
+        function ledBlink() {
+            blinkID = setInterval(blink, 100);
+        }
+
+        function blink() {
+            tessel.led[2].toggle();
+        }
 
         accel.on('data', function(xyz) {
             socket.emit('newdata', {
@@ -48,6 +51,31 @@ accel.on('ready', function() {
             calib[0] = newcalib[0];
             calib[1] = newcalib[1];
             console.log('New calibration => x: ' + calib[0] + ', y: ' + calib[1]);
+        });
+
+        socket.on('ledon', function() {
+            tessel.led[3].on();
+            console.log('Led is on.');
+        });
+
+        socket.on('ledoff', function() {
+            tessel.led[3].off();
+            console.log('Led is off.');
+        });
+
+        socket.on('greenon', function() {
+            clearInterval(blinkID);
+            tessel.led[2].on();
+        });
+
+        socket.on('greenoff', function() {
+            clearInterval(blinkID);
+            tessel.led[2].off();
+        });
+
+        socket.on('greenblink', function() {
+            clearInterval(blinkID);
+            ledBlink();
         });
     });
 });
