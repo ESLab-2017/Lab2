@@ -51,6 +51,16 @@ class Tessel extends Component {
 
   handleFlashToggle = () => {
     this.setState({ flashed: !this.state.flashed });
+    if (!this.state.flashed) this.context.socket.emit('led1on');
+    else this.context.socket.emit('led1off');
+  }
+
+  handleSetClick = () => {
+    this.context.socket.emit('newcalib', [this.state.x, this.state.y]);
+  }
+
+  handleResetClick = () => {
+    this.context.socket.emit('newcalib', [0, 0]);
   }
 
   render() {
@@ -108,15 +118,19 @@ class Tessel extends Component {
         </Toolbar>
         <RaisedButton 
           label="Set"
-          onClick={ this.context.socket.emit('newcalib', [this.state.x, this.state.y]) }
+          onClick={ this.handleSetClick }
         />
         <RaisedButton 
           label="Reset"
-          onClick={ this.context.socket.emit('newcalib', [0, 0]) }
+          onClick={ this.handleResetClick }
         />
       </div>
     );
   }
+}
+
+Tessel.contextTypes = {
+  socket: React.PropTypes.object.isRequired
 }
 
 export default Tessel;
