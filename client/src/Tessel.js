@@ -6,7 +6,7 @@ import FlashOn from 'material-ui/svg-icons/image/flash-on';
 import FlashOff from 'material-ui/svg-icons/image/flash-off';
 import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';
-import { gray100, grey700 } from 'material-ui/styles/colors';
+import { gray100, grey700, lightGreen700, red700 } from 'material-ui/styles/colors';
 import Slider from 'material-ui/Slider';
 import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -43,6 +43,10 @@ class Tessel extends Component {
         if (y > 0) this.setState({ y_orient: "pos" });
         else this.setState({ y_orient: "neg" });
     }
+
+    if (this.state.x_orient === 'nor' && this.state.y_orient === 'nor') this.context.socket.emit('greenon');
+    else if (this.state.x_orient !== 'nor' && this.state.y_orient !== 'nor') this.context.socket.emit('greenoff');
+    else this.context.socket.emit('greenblink');
   }
 
   handleSlider = (ev, val) => {
@@ -61,6 +65,23 @@ class Tessel extends Component {
 
   handleResetClick = () => {
     this.context.socket.emit('newcalib', [0, 0]);
+  }
+
+  renderChip = (type, orient) => {
+    let avaColor = grey700;
+    if (this.state.x_orient === 'pos') avaColor = lightGreen700;
+    else if (this.state.x_orient === 'neg') avaColor = red700;
+    return (
+      <Chip
+        backgroundColor={ gray100 }
+        style={ { 'marginLeft': 12 } }
+      >
+        <Avatar size={32} color={ gray100 } backgroundColor={ avaColor }>
+          { type }
+        </Avatar>
+        { orient }
+      </Chip>
+    );
   }
 
   render() {
@@ -85,23 +106,8 @@ class Tessel extends Component {
           </ToolbarGroup>
 
           <ToolbarGroup>
-            <Chip
-              backgroundColor={ gray100 }
-            >
-              <Avatar size={32} color={ gray100 } backgroundColor={ grey700 }>
-                X
-              </Avatar>
-              { this.state.x_orient }
-            </Chip>
-            <Chip
-              backgroundColor={ gray100 }
-              style={ { 'marginLeft': 12 } }
-            >
-              <Avatar size={32} color={ gray100 } backgroundColor={ grey700 }>
-                Y
-              </Avatar>
-              { this.state.y_orient }
-            </Chip>
+            { this.renderChip('X', this.state.x_orient) }
+            { this.renderChip('Y', this.state.y_orient) }
           </ToolbarGroup>
 
           <ToolbarGroup lastChild={ true }>
@@ -123,6 +129,7 @@ class Tessel extends Component {
         <RaisedButton 
           label="Reset"
           onClick={ this.handleResetClick }
+          style={ { 'marginLeft': 12 } }
         />
       </div>
     );
