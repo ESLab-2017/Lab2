@@ -1,0 +1,14 @@
+.tessel {
+  width: 500px;
+}
+
+.web-cam {
+  height: 270px;
+  width: 432px;
+  margin: 25px;
+}
+
+.thres-slider {
+  height: 64px;
+  width: 150px;
+}
