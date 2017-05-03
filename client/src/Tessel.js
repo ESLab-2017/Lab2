@@ -6,7 +6,7 @@ import FlashOn from 'material-ui/svg-icons/image/flash-on';
 import FlashOff from 'material-ui/svg-icons/image/flash-off';
 import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';
-import { gray100, grey700, lightGreen700, red700 } from 'material-ui/styles/colors';
+import { gray100, lightGreen100, lightGreen700, red100, red700 } from 'material-ui/styles/colors';
 import Slider from 'material-ui/Slider';
 import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -55,8 +55,8 @@ class Tessel extends Component {
 
   handleFlashToggle = () => {
     this.setState({ flashed: !this.state.flashed });
-    if (!this.state.flashed) this.context.socket.emit('led1on');
-    else this.context.socket.emit('led1off');
+    if (!this.state.flashed) this.context.socket.emit('ledon');
+    else this.context.socket.emit('ledoff');
   }
 
   handleSetClick = () => {
@@ -68,12 +68,19 @@ class Tessel extends Component {
   }
 
   renderChip = (type, orient) => {
-    let avaColor = grey700;
-    if (this.state.x_orient === 'pos') avaColor = lightGreen700;
-    else if (this.state.x_orient === 'neg') avaColor = red700;
+    let avaColor = lightGreen700;
+    let chipColor = lightGreen100;
+    if (type === 'X' && this.state.x_orient !== 'nor') {
+      avaColor = red700;
+      chipColor = red100;
+    }
+    else if (type === 'Y' && this.state.y_orient !== 'nor') {
+      avaColor = red700;
+      chipColor = red100;
+    }
     return (
       <Chip
-        backgroundColor={ gray100 }
+        backgroundColor={ chipColor }
         style={ { 'marginLeft': 12 } }
       >
         <Avatar size={32} color={ gray100 } backgroundColor={ avaColor }>
