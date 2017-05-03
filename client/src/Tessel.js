@@ -9,15 +9,18 @@ import Chip from 'material-ui/Chip';
 import { gray100, grey700 } from 'material-ui/styles/colors';
 import Slider from 'material-ui/Slider';
 import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar';
+import RaisedButton from 'material-ui/RaisedButton';
 import './Tessel.css';
 
 injectTapEventPlugin();
 
 class Tessel extends Component {
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
     this.state = {
       thres: 0.045,
+      x: null,
+      y: null,
       x_orient: "nor",
       y_orient: "nor",
       flashed: false,
@@ -27,6 +30,8 @@ class Tessel extends Component {
   handleData = (obj) => {
     const { x, y } = obj;
     const thres = this.state.thres;
+    this.setState({ x });
+    this.setState({ y });
     this.setState({ x_orient: "nor" });
     this.setState({ y_orient: "nor" });
 
@@ -49,13 +54,17 @@ class Tessel extends Component {
   }
 
   render() {
+
     return(
       <div className="tessel">
         <Event event="newdata" handler={ this.handleData } />
         <div className="camera">
            <img src="/stream" className="web-cam" alt="web-cam" />
         </div>
-        <Toolbar style={ { 'backgroundColor': 'white' } }>
+        <Toolbar style={ { 
+          'backgroundColor': 'white',
+          'margin': '10px'
+          } }>
           <ToolbarGroup firstChild={ true }>
             <Checkbox
               checked={ this.state.flashed }
@@ -97,6 +106,14 @@ class Tessel extends Component {
             />
           </ToolbarGroup>
         </Toolbar>
+        <RaisedButton 
+          label="Set"
+          onClick={ this.context.socket.emit('newcalib', [this.state.x, this.state.y]) }
+        />
+        <RaisedButton 
+          label="Reset"
+          onClick={ this.context.socket.emit('newcalib', [0, 0]) }
+        />
       </div>
     );
   }
