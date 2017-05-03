@@ -32,6 +32,7 @@ accel.on('ready', function() {
 
         function blink() {
             tessel.led[2].toggle();
+            // console.log('blink!');
         }
 
         accel.on('data', function(xyz) {
@@ -40,42 +41,45 @@ accel.on('ready', function() {
                 y: xyz[1] - calib[1],
                 z: xyz[2],
             });
-            console.log('x:', xyz[0] - calib[0], 'y:', xyz[1] - calib[1], 'z:', xyz[2]);
+            // console.log('x:', xyz[0] - calib[0], 'y:', xyz[1] - calib[1], 'z:', xyz[2]);
         });
 
         accel.on('error', function(err) {
-            console.log('Error:', err);
+            // console.log('Error:', err);
         });
 
         socket.on('newcalib', function(newcalib) {
             calib[0] = newcalib[0];
             calib[1] = newcalib[1];
-            console.log('New calibration => x: ' + calib[0] + ', y: ' + calib[1]);
+            // console.log('New calibration => x: ' + calib[0] + ', y: ' + calib[1]);
         });
 
         socket.on('ledon', function() {
             tessel.led[3].on();
-            console.log('Led is on.');
+            // console.log('Led is on.');
         });
 
         socket.on('ledoff', function() {
             tessel.led[3].off();
-            console.log('Led is off.');
+            // console.log('Led is off.');
         });
 
         socket.on('greenon', function() {
             clearInterval(blinkID);
             tessel.led[2].on();
+            // console.log('Green light is on.');
         });
 
         socket.on('greenoff', function() {
             clearInterval(blinkID);
             tessel.led[2].off();
+            // console.log('Green light is off.');
         });
 
         socket.on('greenblink', function() {
             clearInterval(blinkID);
             ledBlink();
+            // console.log('Green light is blinking.');
         });
     });
 });
