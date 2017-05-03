@@ -21,6 +21,8 @@ class Tessel extends Component {
       thres: 0.045,
       x: null,
       y: null,
+      x_cali: 0,
+      y_cali: 0,
       x_orient: "nor",
       y_orient: "nor",
       flashed: false,
@@ -30,8 +32,8 @@ class Tessel extends Component {
   handleData = (obj) => {
     const { x, y } = obj;
     const thres = this.state.thres;
-    this.setState({ x });
-    this.setState({ y });
+    this.setState({ x: x - this.state.x_cali });
+    this.setState({ y: y - this.state.y_cali });
     this.setState({ x_orient: "nor" });
     this.setState({ y_orient: "nor" });
 
@@ -60,11 +62,17 @@ class Tessel extends Component {
   }
 
   handleSetClick = () => {
-    this.context.socket.emit('newcalib', [this.state.x, this.state.y]);
+    this.setState({
+      x_cali: this.state.x,
+      y_cali: this.state.y
+    })
   }
 
   handleResetClick = () => {
-    this.context.socket.emit('newcalib', [0, 0]);
+    this.setState({
+      x_cali: 0,
+      y_cali: 0
+    })
   }
 
   renderChip = (type, orient) => {
