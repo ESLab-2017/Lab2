@@ -47,6 +47,7 @@ accel.on('ready', function() {
         socket.on('newcalib', function(newcalib) {
             calib[0] = newcalib[0];
             calib[1] = newcalib[1];
+            console.log('New calibration => x: ' + calib[0] + ', y: ' + calib[1]);
         });
     });
 });
