@@ -18,7 +18,7 @@ const myTheme = getMuiTheme({
 
 class App extends Component {
   render() {
-    const url = 'http://192.168.1.166:3000'
+    const url = 'http://192.168.1.199:3000'
     const options = { transports: ['websocket'] }
 
     return (
