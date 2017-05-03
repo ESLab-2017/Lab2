@@ -14,7 +14,7 @@ app.get('/stream', (request, response) => {
     response.redirect(camera.url);
 });
 
-var calib = [0, 0]; // calibration shift
+// var calib = [0, 0]; // calibration shift
 
 console.log('Accelerometer is initializing...');
 accel.on('ready', function() {
@@ -37,8 +37,8 @@ accel.on('ready', function() {
 
         accel.on('data', function(xyz) {
             socket.emit('newdata', {
-                x: xyz[0] - calib[0],
-                y: xyz[1] - calib[1],
+                x: xyz[0],
+                y: xyz[1],
                 z: xyz[2],
             });
             // console.log('x:', xyz[0] - calib[0], 'y:', xyz[1] - calib[1], 'z:', xyz[2]);
@@ -48,11 +48,11 @@ accel.on('ready', function() {
             // console.log('Error:', err);
         });
 
-        socket.on('newcalib', function(newcalib) {
-            calib[0] = newcalib[0];
-            calib[1] = newcalib[1];
-            // console.log('New calibration => x: ' + calib[0] + ', y: ' + calib[1]);
-        });
+        // socket.on('newcalib', function(newcalib) {
+        //     calib[0] = newcalib[0];
+        //     calib[1] = newcalib[1];
+        //     // console.log('New calibration => x: ' + calib[0] + ', y: ' + calib[1]);
+        // });
 
         socket.on('ledon', function() {
             tessel.led[3].on();

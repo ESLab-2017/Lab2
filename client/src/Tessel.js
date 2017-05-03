@@ -37,12 +37,12 @@ class Tessel extends Component {
     this.setState({ x_orient: "nor" });
     this.setState({ y_orient: "nor" });
 
-    if (Math.abs(x) > thres) {
-        if (x > 0) this.setState({ x_orient: "pos" });
+    if (Math.abs(this.state.x) > thres) {
+        if (this.state.x > 0) this.setState({ x_orient: "pos" });
         else this.setState({ x_orient: "neg" });
     }
-    if (Math.abs(y) > thres) {
-        if (y > 0) this.setState({ y_orient: "pos" });
+    if (Math.abs(this.state.y) > thres) {
+        if (this.state.y > 0) this.setState({ y_orient: "pos" });
         else this.setState({ y_orient: "neg" });
     }
 
@@ -63,8 +63,8 @@ class Tessel extends Component {
 
   handleSetClick = () => {
     this.setState({
-      x_cali: this.state.x,
-      y_cali: this.state.y
+      x_cali: this.state.x + this.state.x_cali,
+      y_cali: this.state.y + this.state.y_cali
     })
   }
 
